@@ -1,0 +1,22 @@
+{
+  "name": "web-clubdeabastoalmayoreo",
+  "version": "1.0.0",
+  "description": "Página en construcción para Club de Abasto al Mayoreo montada en Cloudflare Workers",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "build": "node -e 'const fs=require(\"fs\"); const h=fs.readFileSync(\"index.html\",\"utf8\"); fs.copyFileSync(\"index.html\",\"public/index.html\"); fs.writeFileSync(\"src/index.js\", `const HTML = ${JSON.stringify(h)};\\n\\nexport default {\\n  async fetch(request, env) {\\n    if (env && env.ASSETS) {\\n      return env.ASSETS.fetch(request);\\n    }\\n    const url = new URL(request.url);\\n    if (url.pathname === \"/assets/logo-club-de-abasto.webp\") {\\n      return Response.redirect(\"https://clubdeabastoalmayoreo.com.mx/__l5e/assets-v1/5616c1db-0f36-4753-a1e7-1fd51adc2c51/logo-club-de-abasto.webp\", 302);\\n    }\\n    if (url.pathname === \"/assets/tienda.jpg\") {\\n      return Response.redirect(\"https://clubdeabastoalmayoreo.com.mx/assets/tienda-CdwDXRG9.jpg\", 302);\\n    }\\n    if (url.pathname === \"/assets/favicon.png\" || url.pathname === \"/favicon.ico\") {\\n      return Response.redirect(\"https://clubdeabastoalmayoreo.com.mx/favicon.png\", 302);\\n    }\\n    return new Response(HTML, { headers: { \"content-type\": \"text/html;charset=UTF-8\", \"cache-control\": \"public, max-age=600\" } });\\n  }\\n};\\n`); console.log(\"Build completed.\");'"
+  },
+  "keywords": [
+    "cloudflare-worker",
+    "landing-page",
+    "en-construccion",
+    "club-de-abasto"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^3.111.0"
+  }
+}
